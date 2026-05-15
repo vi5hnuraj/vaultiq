@@ -1,78 +1,66 @@
-# Vaultiq – Decentralized Invoice Financing Protocol
+# Vaultiq – Decentralized RWA Invoice Financing
 
-Vaultiq is a Web3 protocol that allows small and medium enterprises (SMEs) to tokenize unpaid invoices as NFTs, making them fundable on-chain by crypto investors. It’s built on the Sepolia testnet and leverages 1inch APIs to allow real-time, flexible cross-token funding.
-
----
-
-## 🧠 Problem Statement
-
-Small businesses often face working capital issues due to delayed invoice payments. Vaultiq allows them to mint those unpaid invoices as NFTs and access liquidity immediately by connecting with crypto investors willing to fund them. Using DeFi rails, invoices become investable on-chain assets.
+Vaultiq is a next-generation Web3 protocol designed to bridge the gap between Real-World Assets (RWA) and decentralized liquidity. By leveraging AI-powered OCR and blockchain technology, Vaultiq enables Small and Medium Enterprises (SMEs) to transform their unpaid invoices into liquid, on-chain assets.
 
 ---
 
-## 🚀 Overview
-
-> Real-world capital needs meet DeFi liquidity.
-
-In traditional business, SMEs wait weeks or months to get paid. Vaultiq enables tokenizing these invoices and allows anyone to fund them in crypto — with flexible token support and real-time price swaps powered by 1inch APIs.
+## 🧠 The Problem
+Traditional invoice factoring is slow, opaque, and expensive. SMEs often wait 30–90 days for payments, creating critical gaps in working capital. Small businesses are frequently underserved by traditional financial institutions, leaving them with limited options for immediate liquidity.
 
 ---
 
-## 🖼️ Demo Screenshots
-**Home page**    
-![SME Dashboard Screenshot](./screenshots/home.png)
+## 🚀 The Solution: Automated NFT Generation
+Vaultiq provides a seamless pipeline for **Automated NFT Generation**. Using an advanced AI OCR engine, the protocol extracts verified metadata (amount, due date, counterparty) from uploaded invoice PDFs and mints them as unique **ERC-721 NFTs** on the Sepolia testnet.
 
-**SME Dashboard**  
-*Upload invoice, parse fields, and mint NFT*  
-![SME Dashboard Screenshot](./screenshots/sme-dashboard.png)
+These NFTs represent a digital claim on future cash flows, allowing:
+*   **SMEs** to unlock instant working capital by tokenizing their outstanding debt.
+*   **Investors** to fund verified invoices using any crypto asset, earning high-fidelity yield backed by real economic activity.
 
-**Investor Dashboard**  
-*Browse invoices and fund using supported tokens*  
-![Investor Dashboard Screenshot](./screenshots/investor-dashboard.png)
-
-**SME Flow**  
-*High level diagram for SME flow*  
-![Invoice NFT Screenshot](./screenshots/sme.png)
-
-**Investor Flow**  
-*High level diagram for Investor flow*  
-![Invoice NFT Screenshot](./screenshots/investor.png)
 ---
 
 ## 🔁 How It Works
 
-1. **Invoice Upload**: SME uploads a PDF invoice.
-2. **OCR Parsing**: Backend extracts invoice fields like amount, due date, and customer name using Tesseract.
-3. **NFT Minting**: The invoice is minted as an ERC-721 token on Sepolia, with metadata stored on IPFS.
-4. **Investor Funding**: Investors can browse open invoices and choose to fund them in USDC, ETH, or other supported tokens.
-5. **Token Conversion via 1inch**: Vaultiq uses 1inch Quote and Swap APIs to convert investor-sent tokens into the SME's preferred token at real-time rates.
-6. **Repayment & Closure**: SME repays, and the NFT can be marked repaid, archived, or burned.
+1.  **Invoice Upload**: SME uploads a PDF invoice through the portal.
+2.  **AI OCR Parsing**: The backend OCR service extracts invoice fields like amount, due date, and customer name using Tesseract.
+3.  **NFT Minting**: The verified invoice data is minted as an ERC-721 token on the Sepolia testnet, with metadata securely stored on **IPFS**.
+4.  **Investor Funding**: Investors browse the marketplace, review invoice details, and choose to fund them using supported tokens.
+5.  **Repayment & Settlement**: Once the SME repays the invoice, the funds are settled to the investor, and the NFT status is updated on-chain.
 
 ---
 
-## 📍 Where We Used 1inch APIs
+## 🖼️ Demo Screenshots
 
-1inch provides the backbone of Vaultiq’s token flexibility. We used their APIs in the following parts:
+**1. Landing Page**    
+![Home page Screenshot](./screenshots/home.png)
 
-| API                | Usage in Vaultiq                                  |
-|--------------------|----------------------------------------------------|
-| `GET /v5.0/1/tokens` | To fetch supported tokens and addresses for UI dropdowns and validations. |
-| `GET /v5.0/1/quote`  | To calculate real-time conversion from investor token (e.g., USDC) to SME's desired token (e.g., DAI). |
-| `GET /v5.0/1/swap`   | To generate transaction data allowing investors to directly fund SMEs in their requested token via atomic swaps. |
+**2. SME Dashboard**  
+*Upload invoices, extract metadata, and generate NFTs.*  
+![SME Dashboard Screenshot](./screenshots/sme-dashboard.png)
 
-These integrations make Vaultiq flexible, seamless, and investor-friendly, abstracting away token conversion complexity.
+**3. Investor Marketplace**  
+*Browse verified invoice NFTs and provide liquidity.*  
+![Investor Dashboard Screenshot](./screenshots/investor-dashboard.png)
 
 ---
 
-## 🧱 Architecture
+## 🧱 Technical Architecture
 
 ```plaintext
 Frontend (Next.js + Wagmi + RainbowKit)
         |
-FastAPI OCR Service (Tesseract)
+FastAPI OCR Service (AI Tesseract Engine)
         |
-Backend APIs (Invoice parsing, 1inch integration)
+Backend APIs (Node.js + PostgreSQL)
         |
-Smart Contracts (Sepolia, Solidity)
+Smart Contracts (Solidity + Sepolia Testnet)
         |
-Pinata / IPFS (Invoice + metadata storage)
+Decentralized Storage (Pinata / IPFS)
+```
+
+### 🛠️ Tech Stack
+*   **Frontend**: Next.js, Tailwind CSS, Lucide React
+*   **Web3**: Wagmi, Viem, RainbowKit, Ethers.js
+*   **Backend**: Node.js, Express, FastAPI (Python)
+*   **AI/OCR**: Tesseract OCR
+*   **Database**: PostgreSQL
+*   **Blockchain**: Solidity, Hardhat (Sepolia Testnet)
