@@ -1,0 +1,60 @@
+@startuml
+!theme materia
+
+title Vaultiq: SME Invoice NFT Minting Flow
+
+autonumber "<b>[0]</b>"
+
+' Define Participants
+actor "SME User" as User
+box "Vaultiq Platform" #LightSkyBlue
+    participant "Frontend (Next.js)" as FE
+    participant "Backend (Node.js)" as BE
+end box
+box "External Services" #LightGreen
+    database "IPFS\n(Pinata/Gateway)" as IPFS
+    database "Ethereum Blockchain\n(VaultManager Contract)" as Chain
+end box
+
+' === Main Flow: Invoice Upload and Minting ===
+
+User -> FE: Uploads Invoice.pdf
+activate FE
+
+FE -> BE: POST /api/invoices/upload\n(file data)
+activate BE
+note right of BE
+    1. OCR extracts invoice fields\n   (amount, customer, due date).
+    2. Metadata is composed.
+    3. Invoice file + metadata uploaded to IPFS.
+end note
+
+BE -> IPFS: Upload invoice.pdf + JSON metadata
+activate IPFS
+IPFS --> BE: Return IPFS URL (CID)
+deactivate IPFS
+
+BE --> FE: Return metadata & ipfsUrl
+deactivate BE
+
+FE -> Chain: Call mintInvoice(token, fundingAmount,\nrepaymentAmount, dueDate, metadataURI)
+activate Chain
+note right of Chain
+    VaultManager:
+    - Mints ERC721 NFT to SME
+    - Stores metadataURI
+    - Sets initial state (unfunded)
+end note
+
+Chain --> FE: Return txHash + tokenId
+deactivate Chain
+
+FE -> BE: POST /api/invoices/minted\n(txHash, tokenId, ipfsUrl, metadata)
+activate BE
+BE --> BE: Save to DB (PostgreSQL)
+deactivate BE
+
+FE -> User: Show “Invoice Minted!”\n& Update Dashboard
+deactivate FE
+
+@enduml

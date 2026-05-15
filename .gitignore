@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+venv/
+.next/
+dist/
+build/
+
+# Sensitive Data (CRITICAL)
+.env
+.env.local
+.env.*
+*.pem
+private_key.json
+*.sql
+*.zip
+
+# OS Files
+.DS_Store
+Thumbs.db
