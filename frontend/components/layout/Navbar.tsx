@@ -13,7 +13,6 @@ import {
 import { useState, useEffect } from "react";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import AuthModal from "@/components/auth/AuthModal";
 
 export function NavbarDemo() {
     const navItems = [
